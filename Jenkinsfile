@@ -23,23 +23,24 @@ pipeline {
         }
 	stage('Manual Approval') {
 	    steps {
-		input message: 'Lanjutkan ke tahap Deploy?'
+		    input message: 'Lanjutkan ke tahap Deploy?'
 	    }
 	    post {
-		aborted {
-		    echo 'Deploy stage dibatalkan'
-		}
+            aborted {
+                echo 'Deploy stage dibatalkan'
+            }
 	    }
 	}		    
         stage('Deploy') {
             steps {
                 sh './jenkins/scripts/deliver.sh'
+                sleep time: 1, unit: 'MINUTES'
             }
         }
     }
     post {
-	aborted {
-	    echo 'Eksekusi pipeline dihentikan'
-	}
+        aborted {
+            echo 'Eksekusi pipeline dihentikan'
+        }
     }
 }
