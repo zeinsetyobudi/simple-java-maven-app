@@ -21,16 +21,20 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
-            steps {
+	stage('Manual Approval') {
+	    steps {
 		input message: 'Lanjutkan ke tahap Deploy?'
-                sh './jenkins/scripts/deliver.sh'
-            }
+	    }
 	    post {
 		aborted {
 		    echo 'Deploy stage dibatalkan'
 		}
 	    }
+	}		    
+        stage('Deploy') {
+            steps {
+                sh './jenkins/scripts/deliver.sh'
+            }
         }
     }
     post {
